@@ -1,0 +1,136 @@
+Multidimentional Array:
+	int[][] matrix = new int[][]{{1, 4, 7}, {2, 6, 9}};
+	int[][] matrix = new int[2][3];
+
+Time Complexity:
+	O(1): 		判断一个数的奇偶；
+	O(logN): 	二分查找；
+	O(N): 		数组中找最大；
+	O(NlogN): 	快速排序；
+	O(N^2): 	冒泡排序;
+	O(N^3): 	两个矩阵相乘；
+	O(2^N): 	求n个元素集合的所有子集；
+	O(N!): 		求n个元素的全排列；
+	O(N^N): 	8皇后问题的最朴素解法；
+
+	数组增改： 
+			结尾增加/删除一个元素：		O(1);
+			任意位置插入/删除一个元素：	O(N)；
+			查找或更改一个元素的位置： 	O(N)；
+Space Complexity:
+	in place: 不额外开的空间；
+	输入数据不算空间复杂度， 例如 输入一个数组查找一个数，空间复杂度为O(1)；
+
+整型变量：
+	byte 	1字节	-128 ~ 127									-2^7 ~ 2^7-1
+	short 	2字节	-32768 ~ 32767								-2^15 ~ 2^15-1
+	int 	4字节	-2147483648 ~ 2147483647					-2^31 ~ 2^31-1
+	long 	8字节	-9223372036854775808 ~ 9223372036854775807	-2^63 ~ 2^63-1
+浮点型：
+	float, double；
+布尔型：
+	boolean；
+字符型
+	char；
+排序：
+	二分中， 数组需要事先排好序；
+
+	选择排序：这个位置该放谁；
+	插入排序： 这个数目前应该放到哪个位置；
+	冒泡排序： 存在逆序对就交换；
+
+	选择排序：O(N^2)
+			第一个位置放最小， 第二个位置放第二小， 第三个位置放第三小……………………
+   			//463_Sort_Integer
+			public void sortIntegers(int[] A) {
+			    for(int i = 0; i < A.length - 1; i++) {
+			        for(int j = i + 1; j < A.length; j++) {
+			            if(A[j] < A[i]) {
+			                int temp = A[j];
+			                A[j] = A[i];
+			                A[i] = temp;
+			            }
+			        }
+			    }
+			}
+
+	插入排序：O(N^2)
+			每来一个数字，就把它插到答案中去， 就像打麻将，每摸一张牌就把它插入到该放的位置上；
+			N轮，	每轮：	找到该插入的位置O(N);
+							把所有的元素往后移一格O(N)；
+			//463_Sort_Integer
+			public void sortIntegers(int[] A) {
+        		for(int i = 0; i < A.length; i++) {
+            		int temp = A[i];
+            		int j = i - 1;
+            		
+            		while(j >= 0 && A[j] > temp) {
+                		A[j + 1] = A[j];
+                		j--;
+            		}
+            		A[j + 1] = temp;
+        			}
+    			}
+    		} // point： i 前面的数字都已经排好序；
+    		//用二分法找插入位置能够优化插入排序的整体时间复杂度吗？ 因为要把后面的数往后挪一位，所以不行。插入的数不在原来排好的数组中。
+
+    冒泡排序：O(N^2)
+    		从左到右，依次比较相邻两个元素，顺序相反就交换；重复以上步骤；
+    		每一轮会将最大的元素“浮”到右边；
+
+    		//463_Sort_Integer
+    		public void sortIntegers(int[] A) {
+        		for(int i = A.length - 1; i >= 0; i--) {
+            		int j = 0;
+            		while(j <= i - 1) {
+                		if(A[j] > A[j + 1]) {
+                    		int temp = A[j];
+                    		A[j] = A[j + 1];
+                    		A[j + 1] = temp;
+                		}
+                		j++;
+            		}
+        		}
+    		}
+    		//第一轮交换后，最大的数排在最后；第二轮交换后，第二大的数排在倒数第二；第三轮交换后，第三大的数排在倒数第三；
+
+
+Interval:
+		merge interval,先排序， 然后挨个
+		insert interval; 找position
+
+二分法：
+		每次将寻找正确答案的范围减半的算法就是二分法；
+
+		遍历数组： 	O(N);
+		二分法:		O(logN);	//需要O(logN) 复杂度完成的题，绝大多数都是二分法；
+					T(n) = T(n/2) + O(1) = O(logN);
+						通过O(1)的时间，把规模为n的问题变为n/2；
+
+
+		典型应用场景 ：
+					given an sorted integer array(nums), and an target(integer);
+					find the any/first position of target in nums;
+					return -1 if target does not exist;
+		二分法的要点：每次循环要保证区间在缩小；
+					答案要包含在新的区间中；
+					清楚循环结束后区间的样子；
+
+		记忆要点：	while(start + 1 < end)
+					mid = start + (end - start) / 2
+					A[mid] ==, <, > target
+					A[start] A[end] ? target
+
+		二分法位置之OOXX：
+			给定一个如下形式的数组，找数组中第一个/最后一个满足某个条件的位置；例如，一个牛奶生产线上，由于机器故障从某个时间开始后的所有牛奶都不合格，请你找出所有不合格的牛奶。
+				
+				解题思路：获取数组的中间值，通过中间值判断下一轮留下的区间。
+		二分法位置之Half half:
+			无法找到一个条件，形成OOXX的模型。 但可以根据判断，保留下有解的那一半或者去掉无解的一半；
+
+
+
+
+
+
+
