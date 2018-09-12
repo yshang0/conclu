@@ -32,6 +32,11 @@ Space Complexity:
 	boolean；
 字符型
 	char；
+
+
+
+
+
 排序：
 	二分中， 数组需要事先排好序；
 
