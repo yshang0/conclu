@@ -1,4 +1,5 @@
 //30_Insert_Interval
+
 public class Solution {
     /**
      * @param intervals: Sorted interval list.
